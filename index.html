@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Highlight Coffee | Premium Mobile Menu</title>
+    <title>Highlight Coffee | Interactive Menu</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -11,58 +11,47 @@
 
     <style>
         :root { --pumpkin: #FD802E; --bg: #0f1215; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        
-        /* جلوگیری از اسکرول افقی در کل سایت */
-        html, body { background: var(--bg); color: white; overflow-x: hidden; width: 100%; position: relative; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body { background: var(--bg); color: white; overflow-x: hidden; width: 100%; }
 
-        /* --- Navbar --- */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(15, 18, 21, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .logo { font-size: 20px; font-weight: 800; color: white; text-decoration: none; }
+        /* --- Navbar (ثابت) --- */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(15, 18, 21, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo { font-size: 24px; font-weight: 800; color: white; text-decoration: none; }
         .logo span { color: var(--pumpkin); }
-        .nav-right { display: flex; align-items: center; gap: 10px; }
-        .call-link { color: #aaa; text-decoration: none; font-size: 12px; font-weight: bold; }
-        .cart-status { background: var(--pumpkin); color: white; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 13px; }
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+        .call-link { color: #aaa; text-decoration: none; font-weight: bold; font-size: 13px; }
+        .cart-status { background: var(--pumpkin); color: white; padding: 10px 18px; border-radius: 12px; font-weight: bold; cursor: pointer; }
 
-        /* --- Hero Section (اصلاح شده برای موبایل) --- */
-        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 5% 40px; text-align: center; gap: 30px; }
-        .hero-text h1 { font-size: clamp(35px, 10vw, 70px); line-height: 1.1; font-weight: 800; }
-        .hero-img { width: 90%; max-width: 400px; height: auto; aspect-ratio: 1/1; border-radius: 30px; border: 3px solid var(--pumpkin); padding: 8px; object-fit: cover; }
+        /* --- Hero --- */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 8% 40px; text-align: center; gap: 30px; }
+        .hero-text h1 { font-size: clamp(40px, 8vw, 75px); line-height: 1.1; font-weight: 800; }
+        .hero-img { width: 90%; max-width: 450px; border-radius: 40px; border: 3px solid var(--pumpkin); padding: 10px; object-fit: cover; aspect-ratio: 1/1; }
 
-        /* --- Controls --- */
-        .controls { padding: 40px 5%; display: flex; flex-direction: column; gap: 20px; }
-        .search-box { position: relative; width: 100%; }
-        .search-box input { width: 100%; padding: 15px 15px 15px 45px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: #1a1e23; color: white; outline: none; }
-        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--pumpkin); }
+        /* --- Search & Filters --- */
+        .controls { padding: 40px 8%; display: flex; flex-direction: column; gap: 20px; }
+        .search-box { position: relative; width: 100%; max-width: 500px; }
+        .search-box input { width: 100%; padding: 15px 15px 15px 45px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); background: #1a1e23; color: white; outline: none; }
+        .search-box i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--pumpkin); }
 
-        .filter-group { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-        .filter-group::-webkit-scrollbar { display: none; }
-        .filter-btn { padding: 8px 18px; border-radius: 50px; border: none; background: #1a1e23; color: white; white-space: nowrap; font-size: 14px; font-weight: 600; }
-        .filter-btn.active { background: var(--pumpkin); }
+        /* --- Product Grid & Touch Interaction --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 0 8% 100px; }
+        .product-card { position: relative; background: #1a1e23; border-radius: 30px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.05); }
+        .img-container { width: 100%; height: 380px; overflow: hidden; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+        
+        .card-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 25px; background: linear-gradient(to top, rgba(0,0,0,0.95) 30%, transparent); transition: all 0.4s; }
+        .price-tag { font-size: 20px; font-weight: 800; color: var(--pumpkin); display: block; margin-bottom: 10px; }
+        .card-overlay p { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 20px; opacity: 0; transform: translateY(20px); transition: 0.4s; }
+        .add-btn { width: 100%; background: white; color: black; border: none; padding: 14px; border-radius: 15px; font-weight: 800; transform: translateY(40px); opacity: 0; transition: 0.5s; }
 
-        /* --- Grid & Cards (اصلاح شده برای موبایل) --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 0 5% 80px; width: 100%; }
-        .product-card { position: relative; background: #1a1e23; border-radius: 25px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); width: 100%; }
-        .img-container { width: 100%; height: 350px; overflow: hidden; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        /* وضعیت فعال (Hover در دسکتاپ و Touch در موبایل) */
+        .product-card.active, .product-card:hover { transform: translateY(-10px); border-color: var(--pumpkin); box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
+        .product-card.active .img-container img, .product-card:hover .img-container img { transform: scale(1.1); }
+        .product-card.active .card-overlay p, .product-card:hover .card-overlay p { opacity: 1; transform: translateY(0); }
+        .product-card.active .add-btn, .product-card:hover .add-btn { transform: translateY(0); opacity: 1; }
 
-        .card-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.95) 40%, transparent); }
-        .card-overlay h3 { font-size: 22px; font-weight: 800; }
-        .price-tag { color: var(--pumpkin); font-weight: 800; font-size: 18px; margin: 5px 0; display: block; }
-        .card-overlay p { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 15px; line-height: 1.4; }
-        .add-btn { width: 100%; background: white; color: black; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; }
-
-        /* --- Footer --- */
-        .footer { background: #080a0c; padding: 40px 5%; border-top: 1px solid #1a1e23; text-align: center; }
-        .footer-grid { display: grid; gap: 30px; }
+        .footer { background: #080a0c; padding: 50px 8%; border-top: 1px solid #1a1e23; text-align: center; }
         .insta-icon { font-size: 40px; color: #ff4d4d; }
-
-        /* تبلت و دسکتاپ */
-        @media (min-width: 768px) {
-            .hero { flex-direction: row; text-align: left; padding: 0 10%; }
-            .controls, .grid, .footer { padding-left: 10%; padding-right: 10%; }
-            .hero-img { width: 450px; }
-        }
     </style>
 </head>
 <body>
@@ -71,13 +60,13 @@
         <a href="#" class="logo">Highlight<span>.</span></a>
         <div class="nav-right">
             <a href="tel:+18185551925" class="call-link"><i class="fa fa-phone"></i> (818) 555</a>
-            <div class="cart-status" onclick="checkout()"><i class="fa fa-shopping-basket"></i> <span id="count">0</span></div>
+            <div class="cart-status" onclick="checkout()"><span id="count">0</span></div>
         </div>
     </nav>
 
     <header class="hero">
         <div class="hero-text" data-aos="fade-up">
-            <p style="color:var(--pumpkin); font-weight:bold; font-size: 14px;">/ EST 1925</p>
+            <p style="color:var(--pumpkin); font-weight:bold;">/ PREMIUM QUALITY</p>
             <h1>Bold Brews,<br><span style="color:var(--pumpkin)">Fine Time.</span></h1>
         </div>
         <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800" class="hero-img" data-aos="zoom-in">
@@ -88,65 +77,34 @@
             <i class="fa fa-search"></i>
             <input type="text" id="searchInput" placeholder="Search menu..." onkeyup="searchProducts()">
         </div>
-        <div class="filter-group">
-            <button class="filter-btn active" onclick="filter('all', this)">All</button>
-            <button class="filter-btn" onclick="filter('drink', this)">Drinks</button>
-            <button class="filter-btn" onclick="filter('food', this)">Pastries</button>
-        </div>
     </section>
 
     <div id="grid" class="grid" data-aos="fade-up"></div>
 
     <footer class="footer">
-        <div class="footer-grid">
-            <div><h4 style="color:var(--pumpkin)">GLENDALE</h4><p>701 E Broadway, CA</p></div>
-            <div><h4 style="color:var(--pumpkin)">PASADENA</h4><p>2071 Lincoln Ave, CA</p></div>
-            <div><a href="https://instagram.com/highlightcoffee" target="_blank" class="insta-icon"><i class="fab fa-instagram"></i></a></div>
-        </div>
+        <p style="color:#666; margin-bottom:15px;">Glendale & Pasadena</p>
+        <a href="https://instagram.com/highlightcoffee" target="_blank" class="insta-icon"><i class="fab fa-instagram"></i></a>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
         let cart = [];
-        let currentCategory = 'all';
         const products = [
-            { id: 1, cat: 'drink', name: "Butterscotch Latte", price: 6.5, img: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600", desc: "Signature latte with house-made butterscotch syrup." },
-            { id: 2, cat: 'food', name: "Pistachio Danish", price: 4.9, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600", desc: "Flaky layers with premium pistachios." },
-            { id: 3, cat: 'drink', name: "Nitro Cold Brew", price: 5.5, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600", desc: "Smooth nitrogen infused caffeine." },
-            { id: 4, cat: 'drink', name: "Spanish Latte", price: 6.0, img: "https://images.unsplash.com/photo-1541167760496-162955ed8a9f?w=600", desc: "Classic espresso with sweet condensed milk." },
-            { id: 5, cat: 'food', name: "Almond Croissant", price: 4.5, img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600", desc: "Golden croissant with almond cream." },
-            { id: 6, cat: 'food', name: "Berry Scone", price: 4.2, img: "https://images.unsplash.com/photo-1481391243133-f96216dcb5d2?w=600", desc: "Fresh seasonal berries baked daily." }
+            { id: 1, name: "Butterscotch Latte", price: 6.5, img: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600", desc: "Signature latte with house-made syrup." },
+            { id: 2, name: "Pistachio Danish", price: 4.9, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600", desc: "Flaky layers with premium pistachios." },
+            { id: 3, name: "Nitro Cold Brew", price: 5.5, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600", desc: "Smooth nitrogen infused caffeine." },
+            { id: 4, name: "Spanish Latte", price: 6.0, img: "https://images.unsplash.com/photo-1541167760496-162955ed8a9f?w=600", desc: "Espresso with sweet condensed milk." },
+            { id: 5, name: "Almond Croissant", price: 4.5, img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600", desc: "Golden croissant with almond cream." }
         ];
-
-        function addToCart(id) {
-            cart.push(products.find(p => p.id === id));
-            document.getElementById('count').innerText = cart.length;
-        }
-
-        function checkout() {
-            if(cart.length === 0) return alert("Cart is empty!");
-            window.open(`https://wa.me/18185551925?text=${encodeURIComponent("New Order:\n" + cart.map(i=>i.name).join("\n"))}`);
-        }
-
-        function filter(cat, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentCategory = cat;
-            searchProducts();
-        }
 
         function searchProducts() {
             const term = document.getElementById('searchInput').value.toLowerCase();
             const container = document.getElementById('grid');
-            const filtered = products.filter(p => {
-                const matchesSearch = p.name.toLowerCase().includes(term);
-                const matchesCat = currentCategory === 'all' || p.cat === currentCategory;
-                return matchesSearch && matchesCat;
-            });
+            const filtered = products.filter(p => p.name.toLowerCase().includes(term));
 
             container.innerHTML = filtered.map(p => `
-                <div class="product-card">
+                <div class="product-card" ontouchstart="this.classList.add('active')" ontouchend="setTimeout(() => this.classList.remove('active'), 1500)">
                     <div class="img-container"><img src="${p.img}" alt="${p.name}"></div>
                     <div class="card-overlay">
                         <h3>${p.name}</h3>
@@ -157,6 +115,18 @@
                 </div>
             `).join('');
         }
+
+        function addToCart(id) {
+            cart.push(products.find(p => p.id === id));
+            document.getElementById('count').innerText = cart.length;
+            event.stopPropagation(); // جلوگیری از بسته شدن افکت هنگام کلیک روی دکمه
+        }
+
+        function checkout() {
+            if(cart.length === 0) return alert("Cart is empty!");
+            window.open(`https://wa.me/18185551925?text=${encodeURIComponent("Order:\n" + cart.map(i=>i.name).join("\n"))}`);
+        }
+
         searchProducts();
     </script>
 </body>
