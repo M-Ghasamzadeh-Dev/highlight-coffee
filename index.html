@@ -3,46 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Highlight Coffee | Modern Order</title>
+    <title>Highlight Coffee | Premium Menu</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        :root { --charcoal: #233D4C; --pumpkin: #FD802E; --bg: #1a1d21; }
+        :root { --charcoal: #233D4C; --pumpkin: #FD802E; --bg: #0f1215; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background: var(--bg); color: white; overflow-x: hidden; }
 
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(26, 29, 33, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        /* --- Navbar (دکمه تماس دوباره اضافه شد) --- */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(15, 18, 21, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo { font-size: 24px; font-weight: 800; color: white; text-decoration: none; }
         .logo span { color: var(--pumpkin); }
         .nav-right { display: flex; align-items: center; gap: 20px; }
-        .call-btn { color: #aaa; text-decoration: none; font-size: 14px; transition: 0.3s; }
-        .cart-btn { background: var(--pumpkin); color: white; padding: 10px 20px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; }
+        .call-link { color: #aaa; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .call-link:hover { color: var(--pumpkin); }
+        .cart-status { background: var(--pumpkin); color: white; padding: 10px 20px; border-radius: 12px; font-weight: bold; cursor: pointer; }
 
-        .hero { height: 100vh; display: flex; align-items: center; justify-content: space-around; padding: 0 10%; background: radial-gradient(circle at 80% 20%, #2c3136, transparent); }
-        .hero-text h1 { font-size: clamp(45px, 6vw, 80px); line-height: 1; margin-bottom: 20px; font-weight: 800; }
-        .hero-img { width: 450px; border-radius: 40px; border: 3px solid var(--pumpkin); padding: 10px; background: #1a1d21; object-fit: cover; height: 450px; }
+        /* --- Hero --- */
+        .hero { height: 100vh; display: flex; align-items: center; justify-content: space-around; padding: 0 10%; background: radial-gradient(circle at 80% 20%, #1a1e23, transparent); }
+        .hero-text h1 { font-size: clamp(45px, 6vw, 75px); line-height: 1.1; margin-bottom: 20px; font-weight: 800; }
+        .hero-img { width: 450px; border-radius: 40px; border: 3px solid var(--pumpkin); padding: 10px; object-fit: cover; height: 450px; }
 
-        .controls { padding: 120px 10% 40px; text-align: left; }
-        .filter-group { display: flex; gap: 10px; flex-wrap: wrap; }
-        .filter-btn { padding: 12px 25px; border-radius: 50px; border: none; background: #2c3136; color: white; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        /* --- Controls --- */
+        .controls { padding: 120px 10% 40px; }
+        .filter-btn { padding: 12px 25px; border-radius: 50px; border: none; background: #1a1e23; color: white; cursor: pointer; font-weight: 600; transition: 0.3s; margin-right: 10px; }
         .filter-btn.active { background: var(--pumpkin); }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 0 10% 100px; }
-        .product-card { background: #2c3136; border-radius: 24px; overflow: hidden; transition: 0.4s ease; border: 1px solid rgba(255,255,255,0.05); }
-        .img-container { width: 100%; height: 260px; overflow: hidden; position: relative; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .card-content { padding: 25px; background: white; color: #1a1d21; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
-        .price { font-size: 22px; font-weight: 800; color: #1a1d21; }
-        .add-btn { background: var(--pumpkin); color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        /* --- Modern Product Grid (استایل نسل جدید با هاور) --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 0 10% 100px; }
+        .product-card { position: relative; background: #1a1e23; border-radius: 30px; overflow: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.05); }
+        .img-container { width: 100%; height: 380px; overflow: hidden; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
 
-        .footer { background: #14171a; padding: 60px 10%; border-top: 1px dotted #333; }
+        .card-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 30px; background: linear-gradient(to top, rgba(0,0,0,0.95) 30%, transparent); backdrop-filter: blur(2px); transition: all 0.4s; }
+        
+        .product-card:hover .img-container img { transform: scale(1.1); }
+        .product-card:hover { transform: translateY(-15px); border-color: var(--pumpkin); box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+
+        .card-overlay h3 { font-size: 24px; font-weight: 800; margin-bottom: 5px; }
+        .price-tag { font-size: 20px; font-weight: 800; color: var(--pumpkin); display: block; margin-bottom: 10px; }
+        .card-overlay p { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 20px; opacity: 0; transform: translateY(20px); transition: 0.4s; }
+
+        .product-card:hover .card-overlay p { opacity: 1; transform: translateY(0); }
+        .add-btn { width: 100%; background: white; color: black; border: none; padding: 14px; border-radius: 15px; font-weight: 800; cursor: pointer; transform: translateY(40px); opacity: 0; transition: 0.5s; }
+        .product-card:hover .add-btn { transform: translateY(0); opacity: 1; }
+        .add-btn:hover { background: var(--pumpkin); color: white; }
+
+        /* --- Footer --- */
+        .footer { background: #080a0c; padding: 60px 10%; border-top: 1px solid #1a1e23; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
-        .insta-icon { font-size: 60px; color: #ff4d4d; }
+        .insta-icon { font-size: 50px; color: #ff4d4d; }
     </style>
 </head>
 <body>
@@ -50,24 +64,24 @@
     <nav class="navbar">
         <a href="#" class="logo">Highlight<span>.</span></a>
         <div class="nav-right">
-            <a href="tel:+18185551925" class="call-btn"><i class="fa fa-phone"></i> (818) 555-1925</a>
-            <button class="cart-btn" onclick="checkout()">Cart: <span id="count">0</span></button>
+            <a href="tel:+18185551925" class="call-link"><i class="fa fa-phone"></i> (818) 555-1925</a>
+            <div class="cart-status" onclick="checkout()"><i class="fa fa-shopping-basket"></i> Cart: <span id="count">0</span></div>
         </div>
     </nav>
 
     <header class="hero">
         <div class="hero-text" data-aos="fade-right">
-            <p style="color:var(--pumpkin); font-weight:bold; margin-bottom:10px">/ EST 1925</p>
-            <h1>Bold Brews,<br>Fine Time.</h1>
-            <p style="color:#888; max-width:400px">Exceptional specialty coffee experiences in Glendale & Pasadena.</p>
+            <p style="color:var(--pumpkin); font-weight:bold; letter-spacing: 2px;">/ EST 1925</p>
+            <h1>Bold Brews,<br><span style="color:var(--pumpkin)">Fine Time.</span></h1>
+            <p style="color:#888; margin-top: 15px;">Exceptional specialty coffee experiences.</p>
         </div>
-        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800" class="hero-img" alt="Coffee Spot" data-aos="zoom-in">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800" class="hero-img" data-aos="zoom-in">
     </header>
 
     <section class="controls">
-        <div class="filter-group" data-aos="fade-up">
+        <div class="filter-group">
             <button class="filter-btn active" onclick="filter('all', this)">All Menu</button>
-            <button class="filter-btn" onclick="filter('drink', this)">Coffee</button>
+            <button class="filter-btn" onclick="filter('drink', this)">Drinks</button>
             <button class="filter-btn" onclick="filter('food', this)">Pastries</button>
         </div>
     </section>
@@ -86,15 +100,14 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000 });
-
         let cart = [];
         const products = [
-            { id: 1, cat: 'drink', name: "Butterscotch Latte", price: 6.5, img: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600", desc: "Signature latte with house syrup." },
+            { id: 1, cat: 'drink', name: "Butterscotch Latte", price: 6.5, img: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600", desc: "Signature latte with house-made butterscotch syrup." },
             { id: 2, cat: 'food', name: "Pistachio Danish", price: 4.9, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600", desc: "Flaky layers with premium pistachios." },
-            { id: 3, cat: 'drink', name: "Nitro Cold Brew", price: 5.5, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600", desc: "Smooth nitrogen cold caffeine." },
-            { id: 4, cat: 'drink', name: "Spanish Latte", price: 6.0, img: "https://tse2.mm.bing.net/th/id/OIP.VVIp6wB2PAoAT4r7xFrXbQHaNK?w=1080&h=1920&rs=1&pid=ImgDetMain&o=7&rm=3", desc: "Espresso with sweet condensed milk." },
-            { id: 5, cat: 'food', name: "Almond Croissant", price: 4.5, img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600", desc: "Buttery pastry with almond cream." },
-            { id: 6, cat: 'food', name: "Berry Scone", price: 4.2, img: "https://images.unsplash.com/photo-1481391243133-f96216dcb5d2?w=600", desc: "Fresh seasonal berry scone." }
+            { id: 3, cat: 'drink', name: "Nitro Cold Brew", price: 5.5, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600", desc: "Smooth nitrogen infused caffeine." },
+            { id: 4, cat: 'drink', name: "Spanish Latte", price: 6.0, img: "https://hotmart.s3.amazonaws.com/product_pictures/b3e04bd8-9ee7-4196-bb16-752f9ccd9ac8/Storyparainstagramdebomdiacomcafecoloridomarromepreto.png", desc: "Classic espresso with sweet condensed milk." },
+            { id: 5, cat: 'food', name: "Almond Croissant", price: 4.5, img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600", desc: "Golden croissant with almond cream." },
+            { id: 6, cat: 'food', name: "Berry Scone", price: 4.2, img: "https://images.unsplash.com/photo-1481391243133-f96216dcb5d2?w=600", desc: "Fresh baked daily with seasonal berries." }
         ];
 
         function addToCart(id) {
@@ -103,7 +116,7 @@
         }
 
         function checkout() {
-            if(cart.length === 0) return alert("Your cart is empty!");
+            if(cart.length === 0) return alert("Cart is empty!");
             window.open(`https://wa.me/18185551925?text=${encodeURIComponent("New Order:\n" + cart.map(i=>i.name).join("\n"))}`);
         }
 
@@ -118,14 +131,14 @@
             const items = products.filter(p => cat === 'all' || p.cat === cat);
             container.innerHTML = items.map(p => `
                 <div class="product-card">
-                    <div class="img-container"><img src="${p.img}" alt="${p.name}"></div>
-                    <div class="card-content">
+                    <div class="img-container">
+                        <img src="${p.img}" alt="${p.name}">
+                    </div>
+                    <div class="card-overlay">
                         <h3>${p.name}</h3>
-                        <p style="height:40px; overflow:hidden">${p.desc}</p>
-                        <div class="card-footer">
-                            <span class="price">$${p.price.toFixed(2)}</span>
-                            <button class="add-btn" onclick="addToCart(${p.id})">Order Now</button>
-                        </div>
+                        <span class="price-tag">$${p.price.toFixed(2)}</span>
+                        <p>${p.desc}</p>
+                        <button class="add-btn" onclick="addToCart(${p.id})">Add to Order</button>
                     </div>
                 </div>
             `).join('');
