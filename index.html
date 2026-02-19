@@ -3,157 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Highlight Coffee | Exact UI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Highlight Coffee | Specialty Roasters</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
-        :root { --pumpkin: #FD802E; --bg: #1a1a1a; --card-bg: #242424; }
+        :root { --pumpkin: #FD802E; --bg: #0b0d0f; --card: #16191d; --text: #e0e0e0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: var(--bg); color: white; padding-bottom: 50px; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; scroll-behavior: smooth; }
 
         /* Navbar */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: transparent; }
-        .logo { font-size: 24px; font-weight: 800; color: white; text-decoration: none; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(11, 13, 15, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo { font-size: 22px; font-weight: 800; color: white; text-decoration: none; letter-spacing: -1px; }
         .logo span { color: var(--pumpkin); }
         .nav-right { display: flex; gap: 20px; align-items: center; }
-        .cart-status { background: var(--pumpkin); color: white; padding: 10px 25px; border-radius: 50px; font-weight: bold; text-decoration: none; }
+        .cart-status { background: var(--pumpkin); color: white; padding: 10px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; border: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(253, 128, 46, 0.3); }
+        .cart-status:active { transform: scale(0.95); }
 
         /* Hero */
-        .hero { display: flex; align-items: center; padding: 40px 8%; gap: 30px; }
-        .hero-content { flex: 1; }
-        .hero-content h4 { color: #888; font-size: 12px; letter-spacing: 2px; margin-bottom: 10px; }
-        .hero-content h1 { font-size: 50px; font-weight: 800; line-height: 1.1; margin-bottom: 15px; }
-        .hero-content p { color: #aaa; font-size: 14px; max-width: 350px; margin-bottom: 20px; }
-        .hero-img-box { width: 320px; height: 320px; border: 3px solid var(--pumpkin); border-radius: 40px; padding: 12px; }
-        .hero-img-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 30px; }
+        .hero { height: 90vh; display: flex; align-items: center; justify-content: space-between; padding: 0 10%; margin-top: 40px; }
+        .hero-text h1 { font-size: clamp(35px, 7vw, 65px); line-height: 1; font-weight: 800; margin-bottom: 20px; color: white; }
+        .hero-text p { color: #888; font-size: 18px; max-width: 480px; margin-bottom: 30px; }
+        .hero-img { width: clamp(280px, 35vw, 450px); border-radius: 50px; border: 4px solid var(--pumpkin); padding: 12px; transform: rotate(2deg); transition: 0.5s; }
+        .hero-img:hover { transform: rotate(0deg) scale(1.02); }
 
-        /* Quick Filters */
-        .quick-filters { display: flex; gap: 10px; padding: 0 8% 30px; }
-        .q-btn { border: none; padding: 8px 18px; border-radius: 50px; font-size: 12px; font-weight: bold; cursor: pointer; }
-        .q-btn.dark { background: #333; color: white; }
-        .q-btn.orange { background: var(--pumpkin); color: white; }
-        .q-btn.outline { background: white; color: black; }
-
-        /* Controls Section */
-        .controls-header { padding: 30px 8%; border-top: 1px solid #333; }
-        .search-row { display: flex; gap: 10px; margin-top: 15px; }
-        .search-bar { flex: 1; background: white; border-radius: 8px; display: flex; align-items: center; padding: 0 15px; }
-        .search-bar input { border: none; padding: 12px; width: 100%; outline: none; }
-        .search-bar i { color: #666; }
-        .filter-sq { background: #444; width: 45px; height: 45px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-
-        /* Main Content Layout */
-        .main-layout { display: flex; gap: 30px; padding: 0 8%; margin-top: 40px; }
+        /* Controls */
+        .controls-section { padding: 60px 10%; background: #111418; }
+        .filter-wrap { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+        .f-btn { background: #1e2227; border: 1px solid #333; color: #aaa; padding: 10px 24px; border-radius: 50px; cursor: pointer; transition: 0.4s; font-weight: 600; }
+        .f-btn.active, .f-btn:hover { background: var(--pumpkin); color: white; border-color: var(--pumpkin); box-shadow: 0 5px 15px rgba(253, 128, 46, 0.2); }
         
-        /* Left Info Card */
-        .info-panel { width: 250px; }
-        .guide-card { background: #2a2a2a; border-radius: 30px; padding: 25px; border: 1px solid #333; text-align: center; }
-        .guide-card h2 { font-size: 32px; text-align: left; margin-bottom: 20px; }
-        .guide-card .price-box { background: transparent; border: 2px solid #444; border-radius: 20px; padding: 20px; margin-bottom: 15px; }
-        .guide-card .price-box h3 { color: var(--pumpkin); font-size: 28px; }
-        .guide-card img { width: 80px; margin: 10px 0; }
+        .search-wrapper { position: relative; max-width: 450px; }
+        .search-wrapper input { width: 100%; padding: 16px 55px; border-radius: 16px; border: 1px solid #2a2a2a; background: var(--bg); color: white; outline: none; transition: 0.3s; }
+        .search-wrapper input:focus { border-color: var(--pumpkin); }
+        .search-wrapper i { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: var(--pumpkin); }
 
-        /* Products Grid */
-        .products-column { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .p-card { background: #222; border-radius: 30px; overflow: hidden; border: 1px solid #333; transition: 0.3s; }
-        .p-card:hover { border-color: var(--pumpkin); }
-        .p-card img { width: 100%; height: 250px; object-fit: cover; }
-        .p-info { padding: 20px; }
-        .p-price { color: var(--pumpkin); font-weight: 800; font-size: 20px; }
-        .p-info h4 { margin: 5px 0; font-size: 16px; }
-        .p-info p { color: #777; font-size: 12px; margin-bottom: 15px; }
-        .add-btn-small { width: 100%; background: white; border: none; padding: 10px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        /* Grid & Hover Logic */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 40px 10% 100px; }
+        .product-card { background: var(--card); border-radius: 35px; overflow: hidden; position: relative; border: 1px solid #222; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .product-card:hover { transform: translateY(-12px); border-color: var(--pumpkin); }
+        .product-card img { width: 100%; height: 320px; object-fit: cover; transition: 0.6s; }
+        
+        .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 20%, transparent 70%); display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; opacity: 0; transition: 0.4s; }
+        .product-card:hover .card-overlay { opacity: 1; }
+        .product-card:hover img { transform: scale(1.1); filter: brightness(0.7); }
 
-        /* Floating SMS */
-        .sms-float { position: fixed; bottom: 20px; right: 20px; background: #00E676; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .price-tag { font-size: 24px; font-weight: 800; color: var(--pumpkin); margin-bottom: 5px; }
+        .buy-btn { background: white; color: black; border: none; padding: 14px; border-radius: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 15px; }
+        .buy-btn:hover { background: var(--pumpkin); color: white; }
 
-        /* Mobile */
+        /* Floating Actions */
+        .action-btns { position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 12px; z-index: 2000; }
+        .act-btn { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; text-decoration: none; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+        .act-sms { background: #25D366; }
+        .act-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .act-btn:hover { transform: scale(1.1) rotate(5deg); }
+
+        /* Footer Info */
+        .footer { padding: 80px 10%; background: #07090b; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; border-top: 1px solid #1a1e23; }
+        .footer h3 { color: var(--pumpkin); margin-bottom: 20px; font-size: 18px; letter-spacing: 1px; }
+        .footer p { color: #777; font-size: 15px; margin-bottom: 8px; }
+
         @media (max-width: 768px) {
-            .hero { flex-direction: column; text-align: center; }
-            .main-layout { flex-direction: column; }
-            .info-panel { width: 100%; }
-            .hero-img-box { width: 250px; height: 250px; margin: 0 auto; }
+            .hero { flex-direction: column; text-align: center; height: auto; padding: 130px 5% 60px; }
+            .hero-img { margin-top: 40px; width: 300px; }
+            .card-overlay { opacity: 1; background: rgba(0,0,0,0.4); }
         }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <a href="#" class="logo">Highlight<span>.</span></a>
+        <a href="#" class="logo">HIGHLIGHT<span>.</span></a>
         <div class="nav-right">
-            <a href="#" style="color:#aaa; text-decoration:none; font-size:12px;">Call-link</a>
-            <a href="#" class="cart-status">Cart Status</a>
+            <a href="tel:+18182414700" style="color:#888; text-decoration:none;"><i class="fa fa-phone"></i></a>
+            <button class="cart-status">Orders: <span id="cart-val">0</span></button>
         </div>
     </nav>
 
+    <div class="action-btns">
+        <a href="https://instagram.com/highlightcoffee" class="act-insta"><i class="fab fa-instagram"></i></a>
+        <a href="sms:+18182414700?body=Hello Highlight! I'd like to place an order." class="act-sms"><i class="fa-solid fa-comment-sms"></i></a>
+    </div>
+
     <section class="hero">
-        <div class="hero-content">
-            <h4>HERO</h4>
-            <h1>Latte Batter Scatch<br>Wooight 10.1 0</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.</p>
-            <button class="q-btn orange">Sample Btn</button>
+        <div class="hero-text" data-aos="fade-up">
+            <p style="color:var(--pumpkin); font-weight:800; font-size:14px; margin-bottom:10px;">GLENDALE & PASADENA</p>
+            <h1>Every Bean Has<br>A <span style="color:var(--pumpkin)">Story</span> To Tell.</h1>
+            <p>From roasting to brewing, we focus on the details that make specialty coffee truly special.</p>
+            <a href="#menu" style="display:inline-block; padding:15px 35px; background:var(--pumpkin); color:white; text-decoration:none; border-radius:50px; font-weight:800;">View Menu</a>
         </div>
-        <div class="hero-img-box">
-            <img src="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?w=600" alt="Coffee">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800" class="hero-img" data-aos="zoom-in">
+    </section>
+
+    <section class="controls-section" id="menu">
+        <h2 style="margin-bottom:30px; font-size:32px;">Our Selection</h2>
+        <div class="filter-wrap">
+            <button class="f-btn active" onclick="filterItems('all', this)">All Menu</button>
+            <button class="f-btn" onclick="filterItems('coffee', this)">Coffee</button>
+            <button class="f-btn" onclick="filterItems('bakery', this)">Bakery</button>
+        </div>
+        <div class="search-wrapper">
+            <i class="fa fa-search"></i>
+            <input type="text" id="menuSearch" placeholder="Search for your favorite brew..." onkeyup="searchMenu()">
         </div>
     </section>
 
-    <div class="quick-filters">
-        <button class="q-btn dark">All</button>
-        <button class="q-btn orange">All</button>
-        <button class="q-btn outline">Drinks</button>
-        <button class="q-btn outline">Food</button>
-    </div>
-
-    <section class="controls-header">
-        <h3>Controls & Filters</h3>
-        <div class="search-row">
-            <div class="search-bar">
-                <i class="fa fa-search"></i>
-                <input type="text" placeholder="Search">
-            </div>
-            <div class="filter-sq"><i class="fa fa-th-large"></i></div>
+    <div class="grid" id="menuGrid">
         </div>
-    </section>
 
-    <div class="main-layout">
-        <aside class="info-panel">
-            <div class="guide-card">
-                <h2>Grid</h2>
-                <div class="price-box">
-                    <h3>$100</h3>
-                    <p style="color:#888; font-size:12px;">Price</p>
-                    <img src="https://cdn-icons-png.flaticon.com/512/1665/1665727.png" alt="Hand">
+    <footer class="footer">
+        <div>
+            <h3>LOCATIONS</h3>
+            <p><strong>Glendale:</strong> 701 E Broadway, CA 91205</p>
+            <p><strong>Pasadena:</strong> 2071 Lincoln Ave, CA 91103</p>
+        </div>
+        <div>
+            <h3>HOURS</h3>
+            <p>Daily: 7:00 AM — 6:00 PM</p>
+            <p>Weekend: 8:00 AM — 5:00 PM</p>
+        </div>
+        <div>
+            <h3>FOLLOW US</h3>
+            <p>@highlightcoffee</p>
+            <p>Established 2017</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        const menuData = [
+            { id: 1, type: 'coffee', name: 'Butterscotch Latte', price: 6.50, img: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600' },
+            { id: 2, type: 'coffee', name: 'Spanish Latte', price: 6.00, img: 'https://hotmart.s3.amazonaws.com/product_pictures/b3e04bd8-9ee7-4196-bb16-752f9ccd9ac8/Storyparainstagramdebomdiacomcafecoloridomarromepreto.png' },
+            { id: 3, type: 'bakery', name: 'Almond Croissant', price: 4.95, img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600' },
+            { id: 4, type: 'coffee', name: 'Nitro Cold Brew', price: 5.50, img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600' },
+            { id: 5, type: 'coffee', name: 'Cortado', price: 4.50, img: 'https://tse1.explicit.bing.net/th/id/OIP._yj-CBkLGBXpObdWIgkYJwHaE8?rs=1&pid=ImgDetMain&o=7&rm=3' },
+            { id: 6, type: 'bakery', name: 'Pistachio Danish', price: 5.25, img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600' }
+        ];
+
+        let cartCount = 0;
+
+        function renderMenu(items) {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = items.map(item => `
+                <div class="product-card" data-aos="fade-up" data-type="${item.type}">
+                    <img src="${item.img}" alt="${item.name}">
+                    <div class="card-overlay">
+                        <span class="price-tag">$${item.price.toFixed(2)}</span>
+                        <h3>${item.name}</h3>
+                        <button class="buy-btn" onclick="addCart()">Add to Order</button>
+                    </div>
                 </div>
-                <button class="add-btn-small">Add Btn</button>
-            </div>
-        </aside>
+            `).join('');
+        }
 
-        <main class="products-column">
-            <div class="p-card">
-                <img src="https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600">
-                <div class="p-info">
-                    <span class="p-price">$10.000</span>
-                    <h4>Cled Brou</h4>
-                    <p>High quality coffee beans...</p>
-                    <button class="add-btn-small">Add Btn</button>
-                </div>
-            </div>
-            <div class="p-card">
-                <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600">
-                <div class="p-info">
-                    <span class="p-price">$04 Brou</span>
-                    <h4>Croissant</h4>
-                    <p>Freshly baked every morning...</p>
-                    <button class="add-btn-small">Add Btn</button>
-                </div>
-            </div>
-        </main>
-    </div>
+        function filterItems(type, btn) {
+            document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filtered = type === 'all' ? menuData : menuData.filter(i => i.type === type);
+            renderMenu(filtered);
+        }
 
-    <a href="sms:+18182414700?body=Hi" class="sms-float">
-        <i class="fa-solid fa-comment-dots"></i>
-    </a>
+        function searchMenu() {
+            const term = document.getElementById('menuSearch').value.toLowerCase();
+            const filtered = menuData.filter(i => i.name.toLowerCase().includes(term));
+            renderMenu(filtered);
+        }
 
+        function addCart() {
+            cartCount++;
+            document.getElementById('cart-val').innerText = cartCount;
+            // افکت لرزش کوچک برای سبد خرید
+            const cart = document.querySelector('.cart-status');
+            cart.style.transform = 'scale(1.2)';
+            setTimeout(() => cart.style.transform = 'scale(1)', 200);
+        }
+
+        renderMenu(menuData);
+    </script>
 </body>
 </html>
